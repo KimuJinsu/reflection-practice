@@ -1,26 +1,44 @@
 ***
 # 🏞️Fields🏞️
 
-필드는 타입과 값을 가집니다. java.lang.reflect.Field 클래스는 주어진 객체의 필드에 대한 타입 정보를 접근하고 값을 설정하고 가져오는 메서드를 제공합니다.
-Obtaining Field Types 에서는 필드의 선언된 타입과 제네릭 타입을 얻는 방법을 설명합니다.
-Retrieving and Parsing Field Modifiers 에서는 public이나 transient와 같은 필드 선언의 일부를 얻는 방법을 보여줍니다.
-Getting and Setting Field Values 에서는 필드 값을 접근하는 방법을 설명합니다.
-Troubleshooting 에서는 혼란을 일으킬 수 있는 일반적인 코딩 오류를 설명합니다.
-***
+리플렉션(Reflection)은 자바의 강력한 기능으로, 클래스, 필드, 메서드, 생성자에 대한 정보를 실행 중에 동적으로 탐색하고 조작할 수 있게 해줍니다. 이 기능을 사용하면 객체 지향 프로그래밍에서 보통 컴파일 시점에 알 수 있는 정보들을 런타임에 동적으로 처리할 수 있습니다. 리플렉션을 통해 실행 중에 클래스의 구조를 검사하고, 직접적으로 인스턴스화하거나 메서드를 호출하고, 필드 값을 읽고 쓸 수 있습니다.
+
+자세하게 각각의 요소(필드, 메서드, 생성자)에 대해 설명하겠습니다.
+
+1. 필드(Field)
+
+필드는 클래스의 멤버 변수입니다. 리플렉션을 통해 필드에 접근하여 값을 읽거나 변경할 수 있으며, private, protected 필드도 조작할 수 있습니다.
+
+리플렉션을 사용한 필드 조작 방법:
+
+	•	필드 정보 얻기:
+	•	getFields(): 클래스의 모든 public 필드 배열을 반환합니다.
+	•	getDeclaredFields(): 클래스에 선언된 모든 필드를 반환하며, 접근 제어자에 상관없이 private 필드도 포함됩니다.
+	•	필드 값 읽기:
+	•	field.get(object): 주어진 객체에서 필드 값을 반환합니다.
+	•	필드 값 설정:
+	•	field.set(object, value): 주어진 객체의 필드 값을 설정합니다.
 # ↩️Methods↩️
 
-메서드는 리턴 값, 파라미터를 가지며 예외를 던질 수 있습니다. java.lang.reflect.Method 클래스는 파라미터와 리턴 값의 타입 정보를 얻기 위한 메서드를 제공합니다. 또한 주어진 객체에서 메서드를 호출하는 데도 사용될 수 있습니다.
-Obtaining Method Type Information 에서는 클래스에 선언된 메서드를 열거하고 타입 정보를 얻는 방법을 설명합니다.
-Obtaining Names of Method Parameters 에서는 메서드 또는 생성자의 파라미터 이름 및 기타 정보를 검색하는 방법을 보여줍니다.
-Retrieving and Parsing Method Modifiers 에서는 메서드와 관련된 제어자 및 기타 정보를 접근하고 해석하는 방법을 설명합니다.
-Invoking Methods 에서는 메서드를 실행하고 리턴 값을 얻는 방법을 설명합니다.
-Troubleshooting 에서는 메서드를 찾거나 호출할 때 발생하는 일반적인 오류를 다룹니다.
+메서드는 객체가 수행할 수 있는 행동(기능)을 정의합니다. 리플렉션을 통해 메서드의 시그니처를 확인하고, 동적으로 메서드를 호출할 수 있습니다.
+
+리플렉션을 사용한 메서드 조작 방법:
+
+	•	메서드 정보 얻기:
+	•	getMethods(): 클래스의 모든 public 메서드 배열을 반환합니다.
+	•	getDeclaredMethods(): 클래스에 선언된 모든 메서드를 반환하며, private 메서드도 포함됩니다.
+	•	메서드 호출:
+	•	method.invoke(object, args): 주어진 객체에서 해당 메서드를 호출하며, 인자로 필요한 매개변수들을 전달합니다.
 ***
 # 👨‍💻Constructors👨‍💻
 
-리플렉션 API에서 생성자는 java.lang.reflect.Constructor에 정의되어 있으며, 메서드에 대한 API와 유사합니다. 그러나 두 가지 주요 예외가 있습니다. 첫째, 생성자는 리턴 값이 없습니다. 둘째, 생성자를 호출하면 주어진 클래스의 새 인스턴스가 생성됩니다.
-Finding Constructors 에서는 특정 파라미를 가진 생성자를 검색하는 방법을 설명합니다.
-Retrieving and Parsing Constructor Modifiers 에서는 생성자 선언의 제어자 및 기타 정보를 얻는 방법을 보여줍니다.
-Creating New Class Instances 에서는 생성자를 호출하여 객체의 인스턴스를 생성하는 방법을 설명합니다.
-Troubleshooting 에서는 생성자를 찾거나 호출할 때 발생할 수 있는 일반적인 오류를 설명합니다.
+생성자는 객체를 생성하는 역할을 하는 특별한 메서드입니다. 리플렉션을 통해 생성자에 접근하여 객체를 동적으로 생성할 수 있습니다.
+
+리플렉션을 사용한 생성자 조작 방법:
+
+	•	생성자 정보 얻기:
+	•	getConstructors(): 클래스의 모든 public 생성자를 반환합니다.
+	•	getDeclaredConstructors(): 클래스에 선언된 모든 생성자를 반환하며, private 생성자도 포함됩니다.
+	•	생성자 호출:
+	•	constructor.newInstance(args): 주어진 인자를 사용하여 새로운 객체를 생성합니다.
 ***
