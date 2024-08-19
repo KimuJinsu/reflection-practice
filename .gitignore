@@ -17,3 +17,6 @@ build/
 
 # Mac system files
 .DS_Store
+
+.classpath
+.project
