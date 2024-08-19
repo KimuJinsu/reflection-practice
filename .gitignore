@@ -1,0 +1,19 @@
+# Compiled class file
+*.class
+
+# Log files
+*.log
+
+# Directory for Maven build artifacts
+target/
+
+# Directory for Gradle build artifacts
+build/
+
+# IDE-specific files
+.vscode/
+.idea/
+*.iml
+
+# Mac system files
+.DS_Store
