@@ -4,41 +4,63 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import static java.lang.System.out;
 
+// EmailAliases 클래스 정의
+class EmailAliases {
+    // Set<String> 타입의 private 필드
+    private Set<String> aliases;
+
+    // private 생성자, HashMap<String, String>을 받아 aliases 필드 초기화
+    private EmailAliases(HashMap<String, String> h) {
+        aliases = h.keySet(); // HashMap의 키를 Set으로 저장
+    }
+
+    // aliases에 저장된 키를 출력하는 메서드
+    public void printKeys() {
+        out.format("Mail keys:%n");
+        for (String k : aliases) // aliases의 각 키를 출력
+            out.format("  %s%n", k);
+    }
+}
+
+// RestoreAliases 클래스 정의
 public class RestoreAliases {
 
-    // Email 별칭을 저장하기 위한 기본 Map 정의
+    // 기본 이메일 별칭을 저장할 static 필드
     private static Map<String, String> defaultAliases = new HashMap<String, String>();
     
-    // 정적 블록을 통해 초기값 설정
+    // static 블록을 통해 defaultAliases에 초기값 설정
     static {
         defaultAliases.put("Duke", "duke@i-love-java");
         defaultAliases.put("Fang", "fang@evil-jealous-twin");
     }
 
+    // main 메서드
     public static void main(String... args) {
         try {
-            // EmailAliases 클래스의 HashMap을 파라미터로 받는 생성자를 가져옴
-            Constructor ctor = EmailAliases.class.getDeclaredConstructor(HashMap.class);
+            // EmailAliases 클래스의 private 생성자를 가져오기 위해 getDeclaredConstructor 사용
+            Constructor<?> ctor = EmailAliases.class.getDeclaredConstructor(HashMap.class);
             
-            // 생성자의 접근 제한을 해제하여 private 생성자도 호출 가능하도록 설정
+            // 생성자의 접근 제한을 해제
             ctor.setAccessible(true);
             
-            // 해당 생성자를 사용해 EmailAliases 객체를 생성, 생성시 defaultAliases 전달
+            // 생성자를 사용하여 EmailAliases 객체를 생성
             EmailAliases email = (EmailAliases) ctor.newInstance(defaultAliases);
             
-            // 생성된 EmailAliases 객체의 printKeys() 메서드를 호출하여 키 출력
+            // 생성된 객체의 메서드를 호출하여 이메일 별칭의 키를 출력
             email.printKeys();
 
-        // 다양한 예외를 캐치하여 발생할 수 있는 오류에 대해 처리
+        // 예외 처리
         } catch (InstantiationException x) {
-            x.printStackTrace();  // 객체 생성 중 발생하는 예외 처리
+            x.printStackTrace(); // 객체 생성 예외
         } catch (IllegalAccessException x) {
-            x.printStackTrace();  // 접근 제한 예외 처리
+            x.printStackTrace(); // 접근 제어 예외
         } catch (InvocationTargetException x) {
-            x.printStackTrace();  // 생성자 실행 중 발생한 예외 처리
+            x.printStackTrace(); // 생성자 호출 중 예외
         } catch (NoSuchMethodException x) {
-            x.printStackTrace();  // 생성자를 찾을 수 없을 때 예외 처리
+            x.printStackTrace(); // 생성자 찾기 예외
         }
     }
 }
